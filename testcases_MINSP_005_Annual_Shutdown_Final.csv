@@ -1,0 +1,44 @@
+﻿NO,TC No.,Check Object 1,Check Object 2,Check content,Pre-condition,Test Data,Steps,Expected Result,Test IT Result,Executed Date,SQA,Core IT,Detail IT,Evidence,Test UT Result,Status fix bug,Executed Date DEV,DEV,"Note (DefectID, Actual result)"
+,1,取引電力計 Tab,Default value,Kiểm tra default khi open MH MOB-010,1. Có data trong database cho current_inspection_id,N/A,"1. Open app
+2. Thực hiện login với role Engineer
+3. Tại màn hình MOB-002 Home, click button 点検開始 ở Inspection Plan","1. Hiển thị overlay loading data. Tab 取引電力計 được hiển thị data
+2. Thông tin this time hiển thị data từ câu SQL sau:
+SELECT p.work_start, p.weather_information,
+i.chk_hv_panel_demand_setpoint_num, 
+i.chk_hv_panel_power_factor_rate, 
+i.chk_meter_replaced_flag,                                                                        
+i.chk_energy_usage1_num,                                                                        
+i.chk_active_energy_p1_num,                                                                        
+i.chk_reactive_energy_p2_num,                                                                        
+i.chk_energy_usage2_num,                                                                        
+i.chk_energy_usage3_num,                                                                                                                                                                                                        
+i.chk_voltage_rs_num,                                                                        
+i.chk_voltage_st_num,                                                                        
+i.chk_voltage_tr_num,                                                                        
+i.chk_amp_r_num,                                                                        
+i.chk_amp_s_num,                                                                        
+i.chk_amp_t_num                                                                                                                                                                
+
+FROM inspection i                                                                                                                                                                                
+        INNER JOIN plan p ON i.id = p.inspection_id                                                                                                                                                                        
+WHERE i.id = :current_inspection_id                                                                                                                                                                                
+        AND p.state = 11-IS_REPORT_IN_PROGRESS;",,,SQA_Name,,,,,,,,
+,2,sidebar_step_2,Item type,Kiểm tra thao tác click,Đang ở vùng step ① 受電状況,N/A,1. Click button sidebar step 2 ② 絶縁監視装置,1. Scroll về vùng step ② 絶縁監視装置. Item sidebar được highlight trạng thái active.,,,SQA_Name,,,,,,,,
+,3,chk_low_voltage_wiring_devices,Default value,Kiểm tra UI/Activity/Data từng item,Có data trong BD,N/A,"1. Kiểm tra loại item
+2. Confirm hiển thị","1. Item được hiển thị đúng kiểu là Label/Text
+Text là 低圧配線・配線器具
+2. Data get từ field: 
+inspection_location.chk_low_voltage_wiring_devices
+Hiện thị 4 lựa chọn: 
+case IS_BAD  (-1, ""✕"")
+case IS_NOT_APPLICABLE ( 0, ""-"")
+case IS_WARNING  ( 1, ""△"")
+case IS_GOOD ( 2, ""◯"")
+
+Default chọn ""ー"" IS_NOT_APPLICABLE",,,SQA_Name,,,,,,,,
+,4,issue_btn,Item type,"Kiểm tra loại item
+Confirm hiển thị số lượng issue và state background",Có data trong BD,N/A,"1. Kiểm tra loại item
+2. Confirm hiển thị số lượng issue
+3. Kiểm tra issue.state","1. Hiển thị dạng button 指摘事項 (<số lượng>)
+2. Hiển thị tổng số lượng inspection_issue hiện tại trong lần inspection này
+3. Nếu issue.state IN (99-IS_INVALID, 4-IS_COMPLETION_CONFIRMED) thì issue_item hiển thị background xám. Ngược lại hiển thị background đỏ/vàng tuỳ severity.",,,SQA_Name,,,,,,,,

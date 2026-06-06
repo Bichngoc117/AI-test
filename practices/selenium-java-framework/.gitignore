@@ -1,0 +1,99 @@
+# ===========================================
+# Java / Maven
+# ===========================================
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+*.rar
+
+# Maven wrapper
+.mvn/wrapper/maven-wrapper.jar
+
+# ===========================================
+# IDE files
+# ===========================================
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Eclipse
+.eclipse/
+.classpath
+.project
+.settings/
+bin/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# NetBeans
+nbproject/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# ===========================================
+# Test Output
+# ===========================================
+
+# Screenshots
+target/screenshots/
+
+# Allure reports
+target/allure-results/
+target/allure-report/
+
+# Surefire reports
+target/surefire-reports/
+
+# TestNG output
+test-output/
+
+# Log files
+target/logs/
+*.log
+
+# ===========================================
+# Environment / Secrets
+# ===========================================
+
+# Environment config — NEVER commit credentials
+.env
+
+# ===========================================
+# OS Generated
+# ===========================================
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# Windows
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# ===========================================
+# Temp / Misc
+# ===========================================
+*.tmp
+*.swp
+*.bak
+*.orig

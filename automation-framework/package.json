@@ -1,0 +1,30 @@
+{
+  "name": "automation-framework",
+  "version": "1.0.0",
+  "description": "E2E Web UI Automation Framework using Playwright and TypeScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed",
+    "report": "playwright show-report",
+    "report:allure": "allure generate allure-results -o allure-report --clean && allure open allure-report",
+    "report:allure:clean": "npx rimraf allure-results allure-report"
+  },
+  "keywords": [
+    "playwright",
+    "automation",
+    "testing",
+    "typescript"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.44.0",
+    "@types/node": "^20.12.12",
+    "allure-commandline": "^2.42.0",
+    "allure-playwright": "^3.9.0",
+    "dotenv": "^16.4.5",
+    "typescript": "^5.4.5"
+  }
+}

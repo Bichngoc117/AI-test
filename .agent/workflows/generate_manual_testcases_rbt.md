@@ -1,8 +1,5 @@
 ---
 description: Sinh manual test cases chất lượng cao theo quy trình AI-RBT 6 bước (Risk-Based Testing) từ requirements.
-skills:
-  - rbt_manual_testing
-  - requirements_analyzer
 ---
 
 > **BẮT BUỘC (MANDATORY SKILL):** Bạn PHẢI nạp và đọc kỹ nội dung của skill **`rbt_manual_testing`** (tại `.agent/skills/rbt_manual_testing/SKILL.md`) trước khi bắt đầu thực hiện tác vụ này. Sử dụng **Mode FULL RBT** của skill. Ngoài ra, tham khảo thêm skill **`requirements_analyzer`** để hiểu cách phân tích giao diện nếu cần.
@@ -29,22 +26,22 @@ Thực hiện theo hướng dẫn chi tiết trong skill `rbt_manual_testing` �
 
 ### Bước 1: Khởi tạo ngữ cảnh (Context & Role-play)
 1. Yêu cầu user cung cấp: tên dự án, mô tả hệ thống, mục tiêu MVP, tài liệu yêu cầu
-2. Đọc kỹ tài liệu, xác nhận hiểu bối cảnh
+2. Đọc kỹ tài liệu, xác nhận hiểu bối cảnh  và chuyển sang table từng cột cho dễ check
 3. **Chờ user xác nhận** → sang Bước 2
 
 ### Bước 2: Phân tích yêu cầu (Analysis & QnA)
 1. Xác định Happy Path, Alternate Paths, Exception Paths
 2. Phát hiện Ambiguities (thiếu sót, mâu thuẫn, chưa rõ ràng)
-3. Đặt câu hỏi Q&A có đánh số (Q1, Q2...) cho user/PO/BA, kèm ngữ cảnh + assumption
+3. Đặt câu hỏi Q&A có đánh số (Q1, Q2...) cho user/PO/BA, kèm ngữ cảnh + assumption và chuyển sang table từng cột cho dễ check
 4. **DỪNG LẠI — Chờ user trả lời câu hỏi** → sang Bước 3
 
 ### Bước 3: Phân rã hệ thống (Decomposition)
 1. Chia tính năng thành Modules / Sub-modules
-2. Mô tả chức năng từng Module + Dependencies giữa chúng
+2. Mô tả chức năng từng Module + Dependencies giữa chúng và chuyển sang table từng cột cho dễ check
 
 ### Bước 4: Đảm bảo độ bao phủ (Traceability)
 1. Map Module → mã Yêu cầu (REQ-01, REQ-02...)
-2. Cross-check thiếu sót (Gap Analysis), liệt kê High-Level Scenarios
+2. Cross-check thiếu sót (Gap Analysis), liệt kê High-Level Scenario svà chuyển sang table từng cột cho dễ check
 3. **Chờ user review** scenarios → sang Bước 5
 
 ### Bước 5: Sinh Test Case chi tiết (RBT & TC Generation)

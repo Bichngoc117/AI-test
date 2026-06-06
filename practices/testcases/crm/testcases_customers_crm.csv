@@ -1,0 +1,375 @@
+TC ID,Module,Sub-module,Risk Level,Test Title,Pre-Condition,Test Steps,Expected Result,Priority,Test Data
+CRM_CUST_TC_001,M01 - Danh Sách KH,,Low,Xem danh sách KH - Hiển thị đúng cột và dữ liệu,"Admin đã đăng nhập hệ thống CRM. Có ít nhất 1 KH trong hệ thống.","1. Truy cập URL: https://crm.anhtester.com/admin/clients
+2. Quan sát bảng DataTable","1. Trang hiển thị thành công (HTTP 200)
+2. Bảng hiển thị đúng 9 cột: Checkbox, #, Company, Primary Contact, Primary Email, Phone, Active, Groups, Date Created
+3. Cột Company hiển thị dạng link
+4. Cột Active hiển thị toggle switch
+5. Cột Groups hiển thị badge/tag",High,URL: https://crm.anhtester.com/admin/clients
+CRM_CUST_TC_002,M01 - Danh Sách KH,,Low,Xem bảng Summary Stats hiển thị đúng 6 chỉ số,"Admin đã đăng nhập.","1. Truy cập https://crm.anhtester.com/admin/clients
+2. Quan sát phần summary ở đầu trang","1. Hiển thị đúng 6 chỉ số: Total Customers, Active Customers, Inactive Customers, Active Contacts, Inactive Contacts, Contacts Logged In Today
+2. Các số liệu là số nguyên dương hoặc 0
+3. Active + Inactive Customers = Total Customers",Medium,—
+CRM_CUST_TC_003,M01 - Danh Sách KH,,Low,Phân trang - Giá trị mặc định là 25 records,"Admin đã đăng nhập. Có ít nhất 25 KH.","1. Truy cập https://crm.anhtester.com/admin/clients
+2. Kiểm tra dropdown phân trang","1. Dropdown phân trang mặc định là 25
+2. Bảng hiển thị tối đa 25 dòng
+3. Nếu > 25 KH: Xuất hiện nút Next/Previous phân trang",Medium,Số records mặc định: 25
+CRM_CUST_TC_004,M01 - Danh Sách KH,,Low,Phân trang - Chọn hiển thị 50 records,"Admin đã đăng nhập. Có ít nhất 50 KH.","1. Truy cập trang danh sách KH
+2. Click dropdown phân trang
+3. Chọn 50","1. Bảng reload và hiển thị tối đa 50 dòng
+2. Tổng số trang thay đổi tương ứng",Medium,Số records: 50
+CRM_CUST_TC_005,M01 - Danh Sách KH,,Low,Phân trang - Chọn hiển thị 100 records,"Admin đã đăng nhập. Có ít nhất 100 KH.","1. Truy cập trang danh sách KH
+2. Click dropdown phân trang → Chọn 100","1. Bảng reload và hiển thị tối đa 100 dòng
+2. Tổng số trang thay đổi tương ứng",Medium,Số records: 100
+CRM_CUST_TC_006,M01 - Danh Sách KH,,Low,Sort bảng theo cột Company (A→Z),"Admin đã đăng nhập. Có ít nhất 2 KH tên khác nhau.","1. Truy cập trang danh sách KH
+2. Click vào tiêu đề cột Company (lần 1)","1. Bảng sắp xếp theo thứ tự A-Z theo Company
+2. Mũi tên sort hiển thị tại cột Company",Medium,—
+CRM_CUST_TC_007,M01 - Danh Sách KH,,Low,Sort bảng theo cột Company (Z→A),"Admin đã đăng nhập. Có ít nhất 2 KH.","1. Truy cập trang danh sách KH
+2. Click Company lần 1 (A-Z)
+3. Click Company lần 2 (Z-A)","1. Bảng sắp xếp theo thứ tự Z-A
+2. Mũi tên sort đổi chiều",Low,—
+CRM_CUST_TC_008,M01 - Danh Sách KH,,Low,Sort bảng theo cột Date Created,"Admin đã đăng nhập. Có ít nhất 2 KH.","1. Truy cập trang danh sách KH
+2. Click tiêu đề cột Date Created","1. Bảng sắp xếp theo ngày tạo (cũ→mới hoặc mới→cũ)
+2. Format ngày đúng: dd-mm-yyyy HH:mm:ss",Low,—
+CRM_CUST_TC_009,M01 - Danh Sách KH,,Low,Click link Company điều hướng đến trang chi tiết KH,"Admin đã đăng nhập. Có ít nhất 1 KH.","1. Truy cập trang danh sách KH
+2. Click vào tên Company của một KH","1. Hệ thống điều hướng đến /admin/clients/client/{id}
+2. Trang chi tiết hiển thị đúng thông tin KH đã click",High,—
+CRM_CUST_TC_010,M01 - Danh Sách KH,,Low,Nút New Customer điều hướng đến form tạo mới,"Admin đã đăng nhập.","1. Truy cập trang danh sách KH
+2. Click nút '+ New Customer'","1. Hệ thống điều hướng đến /admin/clients/client
+2. Tab Customer Details hiển thị mặc định
+3. Form rỗng sẵn sàng nhập liệu",High,—
+CRM_CUST_TC_011,M02 - Tạo Mới KH,M02.3 - Form Actions,High,Tạo mới KH thành công - Chỉ nhập trường bắt buộc Company,"Admin đã đăng nhập. Đang ở trang danh sách KH.","1. Click '+ New Customer'
+2. Nhập Company: 'Cong Ty TNHH Auto Test 1748349600'
+3. Click nút 'Save'","1. URL chuyển đến form /admin/clients/client
+2. Tab Customer Details hiển thị mặc định
+3. Sau Save: Redirect đến /admin/clients/client/{new_id}
+4. Header hiển thị: #{ID} Cong Ty TNHH Auto Test 1748349600",Critical,Company: Cong Ty TNHH Auto Test 1748349600
+CRM_CUST_TC_012,M02 - Tạo Mới KH,M02.1 - Customer Details,High,Tạo mới KH thất bại - Để trống trường Company,"Admin đã đăng nhập. Đang ở form /admin/clients/client.","1. Để trống trường Company
+2. Nhập Phone: '0901234567' (trường tùy chọn)
+3. Click 'Save'","1. Hệ thống KHÔNG lưu và KHÔNG redirect
+2. Hiển thị thông báo lỗi đỏ: 'This field is required.' bên dưới trường Company
+3. Form vẫn giữ dữ liệu đã nhập",Critical,Company: (trống); Phone: 0901234567
+CRM_CUST_TC_013,M02 - Tạo Mới KH,M02.1 - Customer Details,High,"Validate Company - Nhập chỉ khoảng trắng (whitespace-only)","Admin đã đăng nhập. Đang ở form tạo mới.","1. Nhập Company: '     ' (5 khoảng trắng)
+2. Click 'Save'","1. Hệ thống KHÔNG lưu (whitespace-only không hợp lệ)
+2. Hiển thị lỗi tương tự trường trống: 'This field is required.'",High,Company: 5 khoảng trắng
+CRM_CUST_TC_014,M02 - Tạo Mới KH,M02.1 - Customer Details,High,Validate Company - Nhập XSS injection,"Admin đã đăng nhập. Đang ở form tạo mới.","1. Nhập Company: '<script>alert(1)</script>'
+2. Click 'Save'","1. Hệ thống lưu nhưng escape ký tự
+2. Trang chi tiết hiển thị: &lt;script&gt;alert(1)&lt;/script&gt;
+3. Không thực thi JavaScript / không xuất hiện popup alert",High,"Company: <script>alert(1)</script>"
+CRM_CUST_TC_015,M02 - Tạo Mới KH,M02.1 - Customer Details,High,Validate Company - Nhập SQL Injection,"Admin đã đăng nhập. Đang ở form tạo mới.","1. Nhập Company: ''' OR 1=1--'
+2. Click 'Save'","1. Hệ thống lưu bình thường (parameterized query)
+2. Trang chi tiết hiển thị đúng nội dung đã nhập
+3. Không xảy ra lỗi database",High,"Company: ' OR 1=1--"
+CRM_CUST_TC_016,M02 - Tạo Mới KH,M02.1 - Customer Details,High,Validate Company - Nhập đúng 255 ký tự (max length boundary),"Admin đã đăng nhập. Đang ở form tạo mới.","1. Nhập Company: Chuỗi chính xác 255 ký tự 'A'
+2. Click 'Save'","1. Hệ thống lưu thành công
+2. Trang chi tiết hiển thị đúng 255 ký tự",High,Company: 'A' x 255 ký tự
+CRM_CUST_TC_017,M02 - Tạo Mới KH,M02.1 - Customer Details,High,Validate Company - Nhập 256 ký tự (vượt max length),"Admin đã đăng nhập. Đang ở form tạo mới.","1. Nhập Company: Chuỗi 256 ký tự 'A'
+2. Click 'Save'","1. Hệ thống hiển thị lỗi độ dài vượt giới hạn
+2. Hoặc: Trường tự cắt còn 255 ký tự
+3. Không lưu được 256 ký tự",High,Company: 'A' x 256 ký tự
+CRM_CUST_TC_018,M02 - Tạo Mới KH,M02.1 - Customer Details,High,Validate Company - Nhập Unicode và Emoji,"Admin đã đăng nhập. Đang ở form tạo mới.","1. Nhập Company: 'Công Ty ABC 🏢 Việt Nam'
+2. Click 'Save'","1. Hệ thống lưu thành công với ký tự Unicode và emoji
+2. Trang chi tiết hiển thị đúng chuỗi",Medium,"Company: Công Ty ABC 🏢 Việt Nam"
+CRM_CUST_TC_019,M02 - Tạo Mới KH,M02.1 - Customer Details,High,Tạo KH đầy đủ tất cả trường tùy chọn,"Admin đã đăng nhập. Có ít nhất 1 Group trong hệ thống.","1. Nhập Company: 'Full Info Corp 1748349600'
+2. Nhập VAT: 'VAT-1748349600'
+3. Nhập Phone: '02812345678'
+4. Nhập Website: 'https://fullinfotest.com'
+5. Chọn Groups: group đầu tiên
+6. Chọn Currency: USD
+7. Chọn Language: English
+8. Nhập Address: '123 Nguyen Van Linh, Q7'
+9. Nhập City: 'Ho Chi Minh'
+10. Nhập State: 'HCM'
+11. Nhập Zip: '700000'
+12. Chọn Country: Vietnam
+13. Click 'Save'","1. Hệ thống lưu thành công
+2. Redirect đến trang chi tiết KH
+3. Tất cả thông tin hiển thị đúng như đã nhập",High,"Company: Full Info Corp 1748349600; VAT: VAT-1748349600; Phone: 02812345678; Website: https://fullinfotest.com; City: Ho Chi Minh; Zip: 700000; Country: Vietnam"
+CRM_CUST_TC_020,M02 - Tạo Mới KH,M02.1 - Customer Details,High,Validate VAT Number - Nhập ký tự đặc biệt / XSS,"Admin đã đăng nhập. Đang ở form tạo mới.","1. Nhập Company: 'VAT XSS Test 1748349601'
+2. Nhập VAT: '<script>alert(1)</script>'
+3. Click 'Save'","1. Hệ thống lưu nhưng escape/sanitize ký tự đặc biệt
+2. Không thực thi JavaScript
+3. Hiển thị đúng nội dung đã escape",High,"VAT: <script>alert(1)</script>"
+CRM_CUST_TC_021,M02 - Tạo Mới KH,M02.1 - Customer Details,High,Validate Phone - Nhập số điện thoại hợp lệ,"Admin đã đăng nhập. Đang ở form tạo mới.","1. Nhập Company: 'Phone Valid Test 1748349602'
+2. Nhập Phone: '0901234567'
+3. Click 'Save'","1. Hệ thống lưu thành công
+2. Trang chi tiết hiển thị Phone: 0901234567",Medium,"Company: Phone Valid Test 1748349602; Phone: 0901234567"
+CRM_CUST_TC_022,M02 - Tạo Mới KH,M02.1 - Customer Details,High,Validate Phone - Nhập chữ cái vào trường Phone,"Admin đã đăng nhập. Đang ở form tạo mới.","1. Nhập Company: 'Phone Invalid Test 1748349603'
+2. Nhập Phone: 'abc-invalid-phone'
+3. Click 'Save'","1. Assumption (không có client-side validation): Hệ thống lưu thành công với text
+2. Nếu có validation: Hiển thị lỗi định dạng điện thoại không hợp lệ",Medium,"Phone: abc-invalid-phone"
+CRM_CUST_TC_023,M02 - Tạo Mới KH,M02.1 - Customer Details,High,Validate Phone - Nhập số điện thoại với prefix quốc tế,"Admin đã đăng nhập. Đang ở form tạo mới.","1. Nhập Company: 'Phone Intl Test 1748349604'
+2. Nhập Phone: '+84901234567'
+3. Click 'Save'","1. Hệ thống lưu thành công
+2. Phone hiển thị: +84901234567",Low,"Phone: +84901234567"
+CRM_CUST_TC_024,M02 - Tạo Mới KH,M02.1 - Customer Details,High,Validate Website - Nhập URL hợp lệ có https://,"Admin đã đăng nhập. Đang ở form tạo mới.","1. Nhập Company: 'Website Valid Test 1748349605'
+2. Nhập Website: 'https://www.autotest2026.com'
+3. Click 'Save'","1. Hệ thống lưu thành công
+2. Website hiển thị với icon 🌐 mở link",Medium,"Website: https://www.autotest2026.com"
+CRM_CUST_TC_025,M02 - Tạo Mới KH,M02.1 - Customer Details,High,Validate Website - Nhập URL không có protocol (www only),"Admin đã đăng nhập. Đang ở form tạo mới.","1. Nhập Company: 'Website No Protocol 1748349606'
+2. Nhập Website: 'www.noprotocol.com'
+3. Click 'Save'","1. Assumption (không có validation): Lưu thành công
+2. Nếu có validation: Hiển thị lỗi URL format không hợp lệ",Low,"Website: www.noprotocol.com"
+CRM_CUST_TC_026,M02 - Tạo Mới KH,M02.1 - Customer Details,High,Validate Address - Nhập nhiều dòng trong Textarea,"Admin đã đăng nhập. Đang ở form tạo mới.","1. Nhập Company: 'Address Multi-line Test 1748349607'
+2. Nhập Address textarea 3 dòng: 'So 123 Nguyen Van Linh / Phuong Tan Phong / Quan 7'
+3. Click 'Save'","1. Hệ thống lưu thành công với line breaks
+2. Textarea hiển thị đúng nội dung đa dòng",Medium,"Address: 3 dòng text"
+CRM_CUST_TC_027,M02 - Tạo Mới KH,M02.1 - Customer Details,High,Validate Address - Nhập HTML tags (XSS qua textarea),"Admin đã đăng nhập. Đang ở form tạo mới.","1. Nhập Company: 'Address HTML Test 1748349608'
+2. Nhập Address: '<b>Bold</b><script>alert(1)</script>'
+3. Click 'Save'","1. Hệ thống escape HTML tags
+2. Hiển thị dạng text thuần, không render HTML
+3. Không thực thi JavaScript",High,"Address: <b>Bold</b><script>alert(1)</script>"
+CRM_CUST_TC_028,M02 - Tạo Mới KH,M02.1 - Customer Details,High,Validate Groups - Chọn nhiều groups (multi-select),"Admin đã đăng nhập. Có ít nhất 2 Groups.","1. Nhập Company: 'Multi Group Test 1748349609'
+2. Click dropdown Groups → Chọn 2 groups khác nhau
+3. Click 'Save'","1. Hệ thống lưu thành công
+2. Trang chi tiết hiển thị cả 2 groups dưới dạng badge",Medium,Company: Multi Group Test 1748349609
+CRM_CUST_TC_029,M02 - Tạo Mới KH,M02.1 - Customer Details,High,Validate Groups - Không chọn group (Nothing selected),"Admin đã đăng nhập. Đang ở form tạo mới.","1. Nhập Company: 'No Group Test 1748349610'
+2. Để Groups: Nothing selected (mặc định)
+3. Click 'Save'","1. Hệ thống lưu thành công
+2. Cột Groups trong danh sách: rỗng / không có badge",Low,Company: No Group Test 1748349610
+CRM_CUST_TC_030,M02 - Tạo Mới KH,M02.1 - Customer Details,High,Validate Currency - Thay đổi sang EUR,"Admin đã đăng nhập. Đang ở form tạo mới.","1. Nhập Company: 'Currency EUR Test 1748349611'
+2. Chọn Currency: EUR
+3. Click 'Save'","1. Hệ thống lưu thành công
+2. Trang chi tiết: Currency = EUR",Low,"Company: Currency EUR Test 1748349611; Currency: EUR"
+CRM_CUST_TC_031,M02 - Tạo Mới KH,M02.1 - Customer Details,High,Validate Country - Chọn quốc gia từ dropdown,"Admin đã đăng nhập. Đang ở form tạo mới.","1. Nhập Company: 'Country Test Corp 1748349612'
+2. Click dropdown Country → Chọn 'United States'
+3. Click 'Save'","1. Hệ thống lưu thành công
+2. Trang chi tiết hiển thị Country: United States",Low,"Country: United States"
+CRM_CUST_TC_032,M02 - Tạo Mới KH,M02.1 - Customer Details,High,Validate City - Nhập ký tự số vào trường City,"Admin đã đăng nhập. Đang ở form tạo mới.","1. Nhập Company: 'City Num Test 1748349613'
+2. Nhập City: '12345'
+3. Click 'Save'","1. Assumption: Lưu thành công (không có validation)
+2. Nếu có validation: Hiển thị lỗi chỉ chấp nhận text",Low,"City: 12345"
+CRM_CUST_TC_033,M02 - Tạo Mới KH,M02.1 - Customer Details,High,Validate Zip Code - Nhập chữ cái vào Zip Code,"Admin đã đăng nhập. Đang ở form tạo mới.","1. Nhập Company: 'Zip Invalid Test 1748349614'
+2. Nhập Zip Code: 'ABCDE'
+3. Click 'Save'","1. Assumption: Lưu thành công (không có validation)
+2. Nếu có validation: Hiển thị lỗi định dạng Zip Code",Low,"Zip: ABCDE"
+CRM_CUST_TC_034,M02 - Tạo Mới KH,M02.1 - Customer Details,High,Validate Default Language - Thay đổi sang Vietnamese,"Admin đã đăng nhập. Đang ở form tạo mới.","1. Nhập Company: 'Lang VI Test 1748349615'
+2. Chọn Default Language: Vietnamese
+3. Click 'Save'","1. Hệ thống lưu thành công
+2. Trang chi tiết hiển thị Default Language: Vietnamese",Low,"Language: Vietnamese"
+CRM_CUST_TC_035,M02 - Tạo Mới KH,M02.3 - Form Actions,High,Nút Save and create contact - Redirect sang form Contact,"Admin đã đăng nhập. Đang ở form tạo mới.","1. Nhập Company: 'Save And Contact Corp 1748349616'
+2. Click 'Save and create contact'","1. KH được lưu thành công
+2. Hệ thống redirect sang form tạo Contact mới (không phải trang chi tiết KH)
+3. KH vừa tạo được liên kết với Contact sắp tạo",Critical,Company: Save And Contact Corp 1748349616
+CRM_CUST_TC_036,M02 - Tạo Mới KH,M02.2 - Billing & Shipping,High,Nhập địa chỉ Billing Address hợp lệ,"Admin đã đăng nhập. Đang ở form tạo mới.","1. Nhập Company: 'Billing Test Corp 1748349617'
+2. Click tab 'Billing & Shipping'
+3. Nhập Billing Street: '456 Le Van Viet, Q9'
+4. Nhập Billing City: 'Thu Duc'
+5. Nhập Billing State: 'HCM'
+6. Nhập Billing Zip: '700000'
+7. Chọn Billing Country: Vietnam
+8. Click 'Save'","1. Tab Billing & Shipping hiển thị thành công
+2. Sau Save: Trang chi tiết hiển thị đúng Billing Address","Billing Street: 456 Le Van Viet, Q9; City: Thu Duc; Zip: 700000; Country: Vietnam"
+CRM_CUST_TC_037,M02 - Tạo Mới KH,M02.2 - Billing & Shipping,High,Chức năng Copy Billing sang Shipping Address,"Admin đã đăng nhập. Đang ở tab Billing & Shipping đã điền Billing.","1. Nhập Company: 'Copy Billing Test 1748349618'
+2. Sang tab Billing & Shipping
+3. Điền Billing: Street='789 CMT8', City='HCMC', Zip='700000', Country=Vietnam
+4. Click 'Copy Billing Address'","1. Các trường Shipping được tự động điền giống Billing
+2. Shipping Street='789 CMT8', City='HCMC', Zip='700000', Country=Vietnam",Medium,"Billing: Street=789 CMT8; City=HCMC; Zip=700000; Country=Vietnam"
+CRM_CUST_TC_038,M02 - Tạo Mới KH,M02.2 - Billing & Shipping,High,"Chức năng Same as Customer Info - Copy sang Billing","Admin đã đăng nhập. Đã điền Customer Details với Address.","1. Nhập Company: 'Same Info Test 1748349619'
+2. Nhập Address: '100 Pham Van Dong', City: 'Ha Noi', Zip: '100000', Country: Vietnam
+3. Sang tab Billing & Shipping
+4. Click 'Same as Customer Info'","1. Billing Address tự động điền từ Customer Details
+2. Billing Street='100 Pham Van Dong', City='Ha Noi', Zip='100000', Country=Vietnam",Medium,"Address: 100 Pham Van Dong; City: Ha Noi; Zip: 100000; Country: Vietnam"
+CRM_CUST_TC_039,M03 - Chỉnh Sửa KH,M03.1 - Customer Details,Medium,Chỉnh sửa Company name thành công,"Admin đã đăng nhập. Có ít nhất 1 KH.","1. Click vào Company của KH cần sửa
+2. Tab Profile → sub-tab Customer Details hiển thị mặc định
+3. Xóa Company hiện tại
+4. Nhập Company mới: 'Updated Corp 1748349620'
+5. Click 'Save'","1. Hệ thống lưu thành công
+2. Header cập nhật: #{ID} Updated Corp 1748349620
+3. Thay đổi được phản ánh ngay",High,Company mới: Updated Corp 1748349620
+CRM_CUST_TC_040,M03 - Chỉnh Sửa KH,M03.1 - Customer Details,Medium,Chỉnh sửa KH - Xóa Company và Save thất bại,"Admin đã đăng nhập. Có KH để test.","1. Truy cập trang chi tiết KH
+2. Xóa hết nội dung trường Company
+3. Click 'Save'","1. Hệ thống KHÔNG lưu
+2. Hiển thị lỗi: 'This field is required.' bên dưới Company",Critical,Company: (xóa trắng)
+CRM_CUST_TC_041,M03 - Chỉnh Sửa KH,M03.2 - Billing & Shipping,Medium,Chỉnh sửa Billing City trong trang chi tiết KH,"Admin đã đăng nhập. Có KH.","1. Truy cập trang chi tiết KH
+2. Click sub-tab 'Billing & Shipping'
+3. Sửa Billing City: 'Da Nang'
+4. Click 'Save'","1. Hệ thống lưu thành công
+2. Sub-tab Billing & Shipping hiển thị City: Da Nang",Medium,"Billing City: Da Nang"
+CRM_CUST_TC_042,M03 - Chỉnh Sửa KH,M03.3 - Customer Admins,Medium,Xem sub-tab Customer Admins hiển thị thành công,"Admin đã đăng nhập. Có KH.","1. Truy cập trang chi tiết KH
+2. Click sub-tab 'Customer Admins'","1. Sub-tab hiển thị thành công
+2. Content load không lỗi
+3. Danh sách admin phụ trách hiển thị (nếu có)",Low,—
+CRM_CUST_TC_043,M03 - Chỉnh Sửa KH,,Medium,Navigation 19 sidebar tabs trong trang chi tiết KH,"Admin đã đăng nhập. Có KH.","1. Truy cập trang chi tiết KH
+2. Lần lượt click: Profile, Contacts, Notes, Statement, Invoices, Payments, Proposals, Credit Notes, Estimates, Subscriptions, Expenses, Contracts, Projects, Tasks, Tickets, Files, Vault, Reminders, Map","1. Mỗi tab click thành công
+2. Content area thay đổi tương ứng
+3. Không có lỗi 404 hay crash",Medium,—
+CRM_CUST_TC_044,M03 - Chỉnh Sửa KH,,Medium,Header trang chi tiết hiển thị đúng format #{ID} {Company},"Admin đã đăng nhập. Có KH.","1. Truy cập trang chi tiết KH","1. Header hiển thị: #{ID} {Company Name}
+2. Label 'Profile' hiển thị bên phải header
+3. Dropdown action (chứa Delete) xuất hiện bên cạnh",Medium,—
+CRM_CUST_TC_045,M04 - Xóa KH,,High,Xóa KH - Confirm thành công và redirect về danh sách,"Admin đã đăng nhập. Có KH để xóa.","1. Truy cập trang chi tiết KH cần xóa
+2. Click dropdown bên cạnh #{ID} {Company}
+3. Chọn 'Delete'
+4. Hộp thoại xác nhận hiển thị
+5. Click Confirm/OK","1. Hộp thoại xác nhận hiển thị trước khi xóa
+2. Sau Confirm: KH bị xóa
+3. Redirect về /admin/clients
+4. KH đã xóa không còn trong danh sách",Critical,—
+CRM_CUST_TC_046,M04 - Xóa KH,,High,Xóa KH - Hủy (Cancel) không xóa dữ liệu,"Admin đã đăng nhập. Có KH để test.","1. Truy cập trang chi tiết KH
+2. Click dropdown → 'Delete'
+3. Hộp thoại hiển thị
+4. Click 'Cancel' hoặc đóng dialog (X)","1. Dialog đóng lại
+2. KH KHÔNG bị xóa
+3. Vẫn ở trang chi tiết KH
+4. KH vẫn hiển thị trong danh sách",High,—
+CRM_CUST_TC_047,M04 - Xóa KH,,High,Xóa KH có dữ liệu liên quan - Kiểm tra cascade delete,"Admin đã đăng nhập. Có KH có Contact và Invoice.","1. Tìm KH có ít nhất 1 Contact và 1 Invoice
+2. Ghi nhớ ID Contact và Invoice
+3. Xóa KH → Confirm
+4. Kiểm tra Contact và Invoice còn tồn tại không","1. Assumption (cascade delete): Contact và Invoice liên quan bị xóa theo
+2. Redirect về danh sách
+3. Dữ liệu liên quan không còn tồn tại trong hệ thống",High,KH có Contact và Invoice liên quan
+CRM_CUST_TC_048,M05 - Contacts,,Medium,Xem tab Contacts trong KH - Chưa có contact nào,"Admin đã đăng nhập. KH chưa có contact.","1. Truy cập trang chi tiết KH chưa có contact
+2. Click tab 'Contacts' trong sidebar","1. Tab Contacts hiển thị
+2. Bảng hiển thị: 'No entries found'
+3. Nút 'New Contact' và 'Export' vẫn hiển thị",Medium,—
+CRM_CUST_TC_049,M05 - Contacts,,Medium,Xem tab Contacts trong KH - Có contacts,"Admin đã đăng nhập. KH có ít nhất 1 contact.","1. Truy cập trang chi tiết KH có contact
+2. Click tab 'Contacts'","1. Bảng hiển thị đúng cột: Full Name, Email, Position, Phone, Active, Last Login
+2. Dữ liệu contact chính xác
+3. Cột Active có toggle switch",High,—
+CRM_CUST_TC_050,M05 - Contacts,,Medium,Trang Contacts tổng hợp hiển thị tất cả contacts,"Admin đã đăng nhập. Có ít nhất 1 contact trong hệ thống.","1. Truy cập trang danh sách KH
+2. Click nút 'Contacts' trên header","1. Trang Contacts tổng hợp hiển thị
+2. Bảng gồm cột: First Name, Last Name, Email, Company, Phone, Position, Last Login, Active
+3. Toggle Active hiển thị cho mỗi contact
+4. Tên contact là link dẫn đến chi tiết",Medium,—
+CRM_CUST_TC_051,M05 - Contacts,,Medium,Tìm kiếm trong bảng Contacts tổng hợp,"Admin đã đăng nhập. Trang Contacts tổng hợp mở.","1. Nhập 'nguyen' vào ô Search","1. Bảng lọc real-time kết quả chứa 'nguyen'
+2. Chỉ hiển thị contacts có tên/email chứa 'nguyen'",Medium,"Search: nguyen"
+CRM_CUST_TC_052,M06 - Import KH,M06.1 - Download Sample,High,Download file CSV mẫu thành công,"Admin đã đăng nhập.","1. Truy cập https://crm.anhtester.com/admin/clients
+2. Click 'Import Customers'
+3. Tại /admin/clients/import, click 'Download Sample'","1. File CSV mẫu được tải về
+2. File chứa đúng thứ tự cột: Firstname, Lastname, Email, Company, Contact phonenumber, Position, Vat, Phonenumber, Country, City, Zip, State, Address
+3. File encoding UTF-8",High,—
+CRM_CUST_TC_053,M06 - Import KH,M06.3 - Simulate Import,High,Simulate Import - File CSV hợp lệ 5 records,"Admin đã đăng nhập. Có file CSV hợp lệ.","1. Truy cập trang Import
+2. Click 'Choose CSV File' → Chọn file CSV hợp lệ
+3. Click 'Simulate Import'","1. Hệ thống chạy mô phỏng thành công
+2. Hiển thị số records sẽ import
+3. Không báo lỗi
+4. Dữ liệu CHƯA được import vào database",Critical,"File: simulate_valid_1748349600.csv (5 records hợp lệ)"
+CRM_CUST_TC_054,M06 - Import KH,M06.4 - Execute Import,High,Import thật - File CSV hợp lệ với password mặc định,"Admin đã đăng nhập. Đã chạy Simulate OK.","1. Truy cập trang Import
+2. Chọn file CSV hợp lệ
+3. Nhập Default Password: 'Import@123456'
+4. Click 'Import'","1. Import thực hiện thành công
+2. Hiển thị: X records imported successfully
+3. KH mới xuất hiện trong danh sách /admin/clients
+4. Contacts được tạo với password đã thiết lập",Critical,"File: import_valid_1748349600.csv; Password: Import@123456"
+CRM_CUST_TC_055,M06 - Import KH,M06.2 - Upload & Validate,High,Import - File sai định dạng (.xlsx thay vì .csv),"Admin đã đăng nhập.","1. Truy cập trang Import
+2. Click 'Choose CSV File' → Chọn file .xlsx
+3. Click 'Import'","1. Hệ thống từ chối file
+2. Hiển thị lỗi: Chỉ chấp nhận file CSV
+3. Import KHÔNG thực hiện",High,"File: test_invalid.xlsx"
+CRM_CUST_TC_056,M06 - Import KH,M06.2 - Upload & Validate,High,Import - CSV thiếu cột bắt buộc Email,"Admin đã đăng nhập.","1. Chuẩn bị file CSV: có Firstname, Lastname, Company nhưng thiếu Email
+2. Chọn file → Click 'Import'","1. Hệ thống phát hiện thiếu cột Email
+2. Hiển thị lỗi cột bắt buộc bị thiếu
+3. Import KHÔNG thực hiện",Critical,"File thiếu cột: Email"
+CRM_CUST_TC_057,M06 - Import KH,M06.2 - Upload & Validate,High,Import - CSV thiếu cột bắt buộc Company,"Admin đã đăng nhập.","1. Chuẩn bị file CSV có Firstname, Lastname, Email nhưng thiếu Company
+2. Chọn file → Click 'Import'","1. Hệ thống phát hiện thiếu Company
+2. Hiển thị lỗi
+3. Import KHÔNG thực hiện",Critical,"File thiếu cột: Company"
+CRM_CUST_TC_058,M06 - Import KH,M06.2 - Upload & Validate,High,Import - CSV thiếu cột bắt buộc Firstname và Lastname,"Admin đã đăng nhập.","1. Chuẩn bị file CSV có Email và Company nhưng thiếu Firstname và Lastname
+2. Chọn file → Click 'Import'","1. Hệ thống phát hiện thiếu Firstname và Lastname
+2. Hiển thị lỗi cột bắt buộc
+3. Import KHÔNG thực hiện",Critical,"File thiếu cột: Firstname và Lastname"
+CRM_CUST_TC_059,M06 - Import KH,M06.2 - Upload & Validate,High,Import - CSV có Email trùng với email đã tồn tại trong hệ thống,"Admin đã đăng nhập. Có contact email 'existing_1748349600@test.com' trong hệ thống.","1. Chuẩn bị CSV với email: existing_1748349600@test.com
+2. Chọn file → Click 'Import'","1. Record trùng email bị skip
+2. Báo cáo nêu rõ số records skipped
+3. Các records khác (không trùng) vẫn được import",High,"Email trùng: existing_1748349600@test.com"
+CRM_CUST_TC_060,M06 - Import KH,M06.2 - Upload & Validate,High,Import - CSV mã hóa sai (không phải UTF-8),"Admin đã đăng nhập.","1. Chuẩn bị CSV encoding Windows-1252 có tiếng Việt
+2. Click 'Simulate Import'","1. Hệ thống cảnh báo lỗi encoding
+2. Ký tự tiếng Việt bị hiển thị sai (mojibake)
+3. Gợi ý dùng UTF-8",Medium,"File encoding: Windows-1252"
+CRM_CUST_TC_061,M06 - Import KH,M06.2 - Upload & Validate,High,Import - CSV định dạng ngày sai (dd/MM/yyyy thay vì Y-m-d),"Admin đã đăng nhập.","1. Chuẩn bị CSV với ngày format: '03/04/2026' thay vì '2026-04-03'
+2. Click 'Simulate Import'","1. Hệ thống báo lỗi định dạng ngày không hợp lệ
+2. Record có ngày sai format bị skip hoặc báo lỗi",Medium,"Ngày sai format: 03/04/2026 (phải là 2026-04-03)"
+CRM_CUST_TC_062,M06 - Import KH,,High,Import - CSV rỗng (chỉ có header không có data),"Admin đã đăng nhập.","1. Chuẩn bị file CSV chỉ có dòng header, không có data rows
+2. Chọn file → Click 'Import'","1. Hệ thống xử lý bình thường
+2. Thông báo: 0 records imported
+3. Không crash hay lỗi nghiêm trọng",Medium,"File: empty_data.csv"
+CRM_CUST_TC_063,M06 - Import KH,,Medium,Import - Chọn Group để gán cho KH khi import,"Admin đã đăng nhập. Có Groups và file CSV hợp lệ.","1. Truy cập trang Import
+2. Chọn file CSV hợp lệ
+3. Dropdown Groups → Chọn 'VIP Customers'
+4. Click 'Import'","1. Import thành công
+2. Các KH được import thuộc Group 'VIP Customers'
+3. Cột Groups trong danh sách hiển thị badge 'VIP Customers'",Medium,"Group: VIP Customers"
+CRM_CUST_TC_064,M07 - Export,,Low,Export danh sách KH ra Excel (.xlsx),"Admin đã đăng nhập. Có ít nhất 1 KH.","1. Truy cập trang danh sách KH
+2. Click 'Export' → Chọn 'Excel'","1. File .xlsx được tải về
+2. File chứa đúng dữ liệu KH
+3. Mở được bằng Excel/LibreOffice",High,—
+CRM_CUST_TC_065,M07 - Export,,Low,Export danh sách KH ra CSV (.csv),"Admin đã đăng nhập. Có ít nhất 1 KH.","1. Click 'Export' → Chọn 'CSV'","1. File .csv được tải về
+2. Encoding UTF-8
+3. Dữ liệu đúng định dạng CSV",Medium,—
+CRM_CUST_TC_066,M07 - Export,,Low,Export danh sách KH ra PDF (.pdf),"Admin đã đăng nhập. Có ít nhất 1 KH.","1. Click 'Export' → Chọn 'PDF'","1. File .pdf được tải về
+2. Nội dung hiển thị đúng và đọc được",Medium,—
+CRM_CUST_TC_067,M07 - Export,,Low,Print danh sách KH (Print dialog),"Admin đã đăng nhập.","1. Click 'Export' → Chọn 'Print'","1. Print dialog của trình duyệt mở ra
+2. Preview bản in hiển thị đúng dữ liệu bảng",Low,—
+CRM_CUST_TC_068,M08 - Bulk Actions,M08.1 - Checkbox,High,Chọn tất cả KH bằng checkbox header,"Admin đã đăng nhập. Có ít nhất 3 KH.","1. Truy cập danh sách KH
+2. Click checkbox ở header (chọn tất cả)","1. Tất cả checkbox trong bảng được tick
+2. Tất cả KH trên trang hiện tại được chọn",Medium,—
+CRM_CUST_TC_069,M08 - Bulk Actions,M08.1 - Checkbox,High,Chọn riêng lẻ một số KH bằng checkbox,"Admin đã đăng nhập. Có ít nhất 3 KH.","1. Truy cập danh sách KH
+2. Tick checkbox KH số 1
+3. Bỏ qua KH số 2
+4. Tick checkbox KH số 3","1. Chỉ checkbox KH 1 và 3 được tick
+2. KH số 2 không được chọn",Medium,—
+CRM_CUST_TC_070,M08 - Bulk Actions,M08.2 - Mass Delete,High,Bulk Delete - Xóa nhiều KH cùng lúc,"Admin đã đăng nhập. Có ít nhất 3 KH.","1. Tick checkbox 2 KH cần xóa
+2. Click 'Bulk Actions'
+3. Modal hiển thị
+4. Tick checkbox 'Mass Delete'
+5. Click 'Confirm'","1. Modal Bulk Actions hiển thị đúng
+2. Sau Confirm: 2 KH bị xóa
+3. Danh sách KH cập nhật
+4. Thông báo xóa thành công",Critical,"2 KH được chọn"
+CRM_CUST_TC_071,M08 - Bulk Actions,M08.2 - Mass Delete,High,Bulk Delete - Hủy (Close modal) không xóa dữ liệu,"Admin đã đăng nhập. Có ít nhất 2 KH.","1. Tick checkbox 2 KH
+2. Click 'Bulk Actions'
+3. Tick 'Mass Delete'
+4. Click 'Close'","1. Modal đóng lại
+2. KHÔNG có KH nào bị xóa
+3. Dữ liệu nguyên vẹn",High,—
+CRM_CUST_TC_072,M08 - Bulk Actions,M08.3 - Assign Groups,High,Bulk Assign Group cho nhiều KH,"Admin đã đăng nhập. Có ít nhất 2 KH và 1 Group.","1. Tick checkbox 2 KH
+2. Click 'Bulk Actions'
+3. Chọn Group từ dropdown
+4. KHÔNG tick Mass Delete
+5. Click 'Confirm'","1. Modal hiển thị cảnh báo về groups
+2. Sau Confirm: 2 KH được gán Group đã chọn
+3. Cột Groups trong bảng cập nhật badge mới",High,"Group: group có sẵn"
+CRM_CUST_TC_073,M08 - Bulk Actions,M08.3 - Assign Groups,High,Bulk Actions - Không chọn Group → Tất cả groups bị gỡ,"Admin đã đăng nhập. Có KH đã được gán Group.","1. Tick checkbox KH có group
+2. Click 'Bulk Actions'
+3. Không chọn Group trong modal
+4. KHÔNG tick Mass Delete
+5. Click 'Confirm'","1. Cảnh báo hiển thị: 'If you do not select any group all groups assigned to the selected customers will be removed.'
+2. Sau Confirm: Tất cả groups của KH bị gỡ
+3. Cột Groups trong bảng trống",High,KH đã có group
+CRM_CUST_TC_074,M08 - Bulk Actions,,High,Bulk Actions - Click khi chưa chọn KH nào,"Admin đã đăng nhập.","1. KHÔNG tick checkbox KH nào
+2. Click nút 'Bulk Actions'","1. Nút Bulk Actions bị vô hiệu hóa (disabled) khi chưa chọn
+2. Hoặc: Hiển thị thông báo yêu cầu chọn ít nhất 1 KH
+3. Modal KHÔNG hiển thị",High,—
+CRM_CUST_TC_075,M09 - Search & Filter,,Medium,Tìm kiếm real-time theo tên Company,"Admin đã đăng nhập. Có KH tên chứa 'ABC'.","1. Truy cập danh sách KH
+2. Nhập 'ABC' vào ô Search","1. Bảng lọc real-time ngay khi nhập (không cần Enter)
+2. Chỉ hiển thị KH có Company chứa 'ABC'",High,"Search: ABC"
+CRM_CUST_TC_076,M09 - Search & Filter,,Medium,Tìm kiếm không có kết quả,"Admin đã đăng nhập.","1. Nhập 'XYZXYZXYZ_NOT_EXIST_12345' vào ô Search","1. Bảng hiển thị 'No entries found' hoặc tương đương
+2. Không có KH trong kết quả",Medium,"Search: XYZXYZXYZ_NOT_EXIST_12345"
+CRM_CUST_TC_077,M09 - Search & Filter,,Medium,Xóa từ khóa tìm kiếm - Bảng reset về trạng thái ban đầu,"Admin đã đăng nhập. Đang có từ khóa 'ABC' trong Search.","1. Nhập 'ABC' → Bảng lọc
+2. Xóa hết từ khóa trong ô Search","1. Bảng reset về trạng thái ban đầu
+2. Hiển thị lại tất cả KH theo phân trang mặc định",Medium,"Search: xóa trắng"
+CRM_CUST_TC_078,M09 - Search & Filter,,Medium,Tìm kiếm với ký tự đặc biệt XSS trong Search box,"Admin đã đăng nhập.","1. Nhập '<script>alert(1)</script>' vào ô Search","1. Hệ thống xử lý an toàn
+2. Không thực thi JavaScript
+3. Bảng hiển thị 'No entries found' hoặc rỗng",High,"Search: <script>alert(1)</script>"
+CRM_CUST_TC_079,M09 - Search & Filter,,Medium,Filter nâng cao - Lọc theo trạng thái Active,"Admin đã đăng nhập.","1. Click biểu tượng filter (hình phễu)
+2. Chọn 'New Filter'
+3. Click 'Add Rule'
+4. Chọn tiêu chí: Active → Giá trị: Active
+5. Áp dụng filter","1. Filter builder hiển thị thành công
+2. Bảng chỉ hiển thị KH Active",High,"Filter: Active = Active"
+CRM_CUST_TC_080,M09 - Search & Filter,,Medium,Filter nâng cao - Kết hợp 2 tiêu chí (AND logic),"Admin đã đăng nhập.","1. Mở filter builder
+2. Add Rule 1: Active = Active
+3. Add Rule 2: Country = Vietnam
+4. Áp dụng filter","1. Bảng hiển thị KH thỏa mãn CẢ 2 điều kiện: Active AND Country = Vietnam",Medium,"Filter: Active=Active AND Country=Vietnam"
+CRM_CUST_TC_081,M10 - Toggle Active,,Low,Toggle KH từ Active sang Inactive - Lưu ngay lập tức,"Admin đã đăng nhập. Có KH đang Active.","1. Truy cập danh sách KH
+2. Tìm KH trạng thái Active (toggle = ON)
+3. Click toggle switch","1. Toggle chuyển OFF ngay lập tức
+2. Không cần reload trang
+3. Trạng thái KH = Inactive trong database
+4. Summary Stats cập nhật: Active -1, Inactive +1",High,KH đang Active
+CRM_CUST_TC_082,M10 - Toggle Active,,Low,Toggle KH từ Inactive sang Active - Lưu ngay lập tức,"Admin đã đăng nhập. Có KH đang Inactive.","1. Tìm KH trạng thái Inactive (toggle = OFF)
+2. Click toggle switch","1. Toggle chuyển ON ngay lập tức
+2. Không cần reload trang
+3. Trạng thái KH = Active trong database",High,KH đang Inactive
+CRM_CUST_TC_083,M10 - Toggle Active,,Low,Toggle Active trong trang Contacts tổng hợp,"Admin đã đăng nhập. Có ít nhất 1 contact.","1. Truy cập trang Contacts tổng hợp
+2. Click toggle Active của 1 contact","1. Toggle chuyển trạng thái ngay lập tức
+2. Không cần reload trang",Medium,—

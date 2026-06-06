@@ -1,0 +1,23 @@
+[
+  {
+    "type": "admin",
+    "email": "admin@example.com",
+    "password": "Admin@123",
+    "expectedRole": "Administrator",
+    "description": "Admin user with full access"
+  },
+  {
+    "type": "standard_user",
+    "email": "user@example.com",
+    "password": "User@123",
+    "expectedRole": "User",
+    "description": "Standard user with limited access"
+  },
+  {
+    "type": "readonly_user",
+    "email": "readonly@example.com",
+    "password": "ReadOnly@123",
+    "expectedRole": "Viewer",
+    "description": "Read-only user — can view but not edit"
+  }
+]

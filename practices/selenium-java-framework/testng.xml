@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="CRM Login Automation Suite" verbose="1" parallel="methods" thread-count="2">
+
+    <!-- Global parameters -->
+    <parameter name="browser" value="chrome"/>
+    <parameter name="env" value="staging"/>
+
+    <!-- Listeners -->
+    <listeners>
+        <listener class-name="com.framework.listeners.AllureListener"/>
+        <listener class-name="com.framework.listeners.TestListener"/>
+    </listeners>
+
+    <!-- Smoke Tests — Critical path only -->
+    <test name="Smoke Tests" preserve-order="true">
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.framework.tests.LoginTest"/>
+            <class name="com.framework.tests.LogoutTest"/>
+        </classes>
+    </test>
+
+    <!-- M1: Login Form UI Tests -->
+    <test name="M1 - Login Form UI Tests">
+        <groups>
+            <run>
+                <include name="ui"/>
+                <include name="regression"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.framework.tests.LoginFormUITest"/>
+        </classes>
+    </test>
+
+    <!-- M2: Login Authentication Tests -->
+    <test name="M2 - Login Authentication Tests" preserve-order="true">
+        <groups>
+            <run>
+                <include name="regression"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.framework.tests.LoginTest"/>
+        </classes>
+    </test>
+
+    <!-- M3: Forgot Password Tests -->
+    <test name="M3 - Forgot Password Tests">
+        <groups>
+            <run>
+                <include name="regression"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.framework.tests.ForgotPasswordTest"/>
+        </classes>
+    </test>
+
+    <!-- M4: Logout Tests -->
+    <test name="M4 - Logout Tests">
+        <groups>
+            <run>
+                <include name="regression"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.framework.tests.LogoutTest"/>
+        </classes>
+    </test>
+
+    <!-- M5: Security Tests -->
+    <test name="M5 - Security Tests">
+        <groups>
+            <run>
+                <include name="security"/>
+                <include name="regression"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.framework.tests.LoginSecurityTest"/>
+        </classes>
+    </test>
+
+</suite>

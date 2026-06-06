@@ -1,0 +1,482 @@
+﻿NO,TC No.,Check Object 1,Check Object 2,Check content,Pre-condition,Test Data,Steps,Expected Result,Test IT Result,Executed Date,SQA,Core IT,Detail IT,Evidence,Test UT Result,Status fix bug,Executed Date DEV,DEV,Note
+,REZIL_MINSP005_TC_001,Access & Init,Luồng di chuyển,Truy cập từ Home (MOB-002),Chưa login hệ thống,Role: Engineer,"1. Open app
+2. Login với role Engineer
+3. Tại màn hình MOB-002, click '点検開始'",Hiển thị màn hình MOB-010 Inspection Execute.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_002,Access & Init,Luồng di chuyển,Truy cập từ Plan Detail (MOB-008),Đang ở MOB-008,Inspection ID: 100,"1. Tại màn hình MOB-008, click '点検開始'",Hiển thị màn hình MOB-010 Inspection Execute.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_003,Access & Init,Luồng di chuyển,Truy cập không tồn tại data,Database không có inspection_id tương ứng,Inspection ID: 99999,1. Truy cập MOB-010 bằng link/deep link không hợp lệ,"Hiển thị popup lỗi: '該当点検は存在しない'.
+Đóng popup sẽ redirect về Home.",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_004,Common UI,Back button,Quay lại màn trước,Đang ở màn MOB-010,N/A,1. Nhấn nút Back (<-),"Di chuyển về màn hình trước đó, dữ liệu trên màn hình trước được refresh.",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_005,Common UI,inspection_category,Hiển thị loại điểm kiểm,Có data trong DB,"category: 1, 2, 3...",1. Quan sát trường Category trên Header,"Hiển thị text map theo value (VD: 1 -> 月次点検, 2 -> 年次点検(無停電)...).",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_006,Common UI,weather_temperature_humidity,Hiển thị thời tiết,Có data trong plan,"{""code"": 0, ""weather"": ""晴"", ""humidity"": ""70"", ""temperature"": ""23""}",1. Quan sát UI thời tiết,Hiển thị format: [Icon] + 23°C / 70%.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_007,Sync & Concurrency,Download Data,Tải dữ liệu từ server - Hợp lệ,"Có data server, có thay đổi local",N/A,"1. Click button ダウンロード
+2. Click はい trên popup cảnh báo","Tải dữ liệu server ghi đè local. Hiển thị toast thành công. Background hết vàng.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_008,Sync & Concurrency,Upload Data,Đẩy dữ liệu lên server - Hợp lệ,Có data local mới,N/A,"1. Click button アップロード
+2. Click はい trên popup","Ghi đè dữ liệu server. Hiển thị toast thành công.
+[SQL Check]:
+SELECT * FROM inspection WHERE id = <id>
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_009,Sync & Concurrency,Concurrency,Nhiều người dùng thao tác,User A và User B cùng mở 1 inspection,"User A, User B","1. User A mở MOB-010, nhập data X
+2. User B mở MOB-010, nhập data Y và ấn Upload
+3. User A ấn Upload","User A nhận được cảnh báo conflict dữ liệu (hoặc ghi đè tùy spec, mặc định sẽ cảnh báo). Cần check DB chỉ lưu data cuối cùng hợp lệ.",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_010,Sync & Concurrency,Concurrency,Nhiều người dùng - Offline,"User A offline, User B online",N/A,"1. User B upload thành công
+2. User A có mạng lại và bấm Upload","Dữ liệu User A ghi đè lên server. User B nếu ấn Download sẽ bị mất data cũ của B, lấy data của A.",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_011,Field Validation,chk_hv_panel_demand_setpoint_num (デマンド指示値),Nhập hợp lệ (EP),N/A,Value: 10,"1. Nhập 10 vào chk_hv_panel_demand_setpoint_num (デマンド指示値)
+2. Focus out","Giữ nguyên giá trị nhập. Format theo Decimal(5,3).",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_012,Field Validation,chk_hv_panel_demand_setpoint_num (デマンド指示値),Bỏ trống (Required),N/A,Trống,"1. Xóa trắng chk_hv_panel_demand_setpoint_num (デマンド指示値)
+2. Focus out","Trường bị viền đỏ, hiển thị icon 必須. Tiến độ phòng không hoàn thành.",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_013,Field Validation,chk_hv_panel_demand_setpoint_num (デマンド指示値),Nhập Min boundary,N/A,Value: 0,"1. Nhập 0
+2. Focus out",Giữ nguyên giá trị nhập. Format đúng chuẩn.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_014,Field Validation,chk_hv_panel_demand_setpoint_num (デマンド指示値),Nhập Max boundary,N/A,Value: 99999,"1. Nhập 99999
+2. Focus out",Giữ nguyên giá trị nhập. Format đúng chuẩn.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_015,Field Validation,chk_hv_panel_demand_setpoint_num (デマンド指示値),Nhập dưới Min (BVA),N/A,Value: -0.1,"1. Nhập dưới Min
+2. Focus out",Xóa input đã nhập. Hiển thị label 入力範囲：0〜99999.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_016,Field Validation,chk_hv_panel_demand_setpoint_num (デマンド指示値),Nhập trên Max (BVA),N/A,Value: 99999.1,"1. Nhập trên Max
+2. Focus out",Xóa input đã nhập. Hiển thị label báo lỗi phạm vi.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_017,Field Validation,chk_hv_panel_demand_setpoint_num (デマンド指示値),Nhập text/ký tự đặc biệt,N/A,Value: abc@!#,"1. Nhập ký tự abc
+2. Focus out",Không cho phép nhập hoặc bị xóa đi lập tức. Bàn phím số phải được bật default.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_018,Field Validation,chk_energy_usage1_num (使用電力量1),Nhập hợp lệ (EP),N/A,Value: 10,"1. Nhập 10 vào chk_energy_usage1_num (使用電力量1)
+2. Focus out","Giữ nguyên giá trị nhập. Format theo Decimal(6,3).",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_019,Field Validation,chk_energy_usage1_num (使用電力量1),Bỏ trống (Required),N/A,Trống,"1. Xóa trắng chk_energy_usage1_num (使用電力量1)
+2. Focus out","Trường bị viền đỏ, hiển thị icon 必須. Tiến độ phòng không hoàn thành.",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_020,Field Validation,chk_energy_usage1_num (使用電力量1),Nhập Min boundary,N/A,Value: 0,"1. Nhập 0
+2. Focus out",Giữ nguyên giá trị nhập. Format đúng chuẩn.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_021,Field Validation,chk_energy_usage1_num (使用電力量1),Nhập Max boundary,N/A,Value: 999999,"1. Nhập 999999
+2. Focus out",Giữ nguyên giá trị nhập. Format đúng chuẩn.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_022,Field Validation,chk_energy_usage1_num (使用電力量1),Nhập dưới Min (BVA),N/A,Value: -0.1,"1. Nhập dưới Min
+2. Focus out",Xóa input đã nhập. Hiển thị label 入力範囲：0〜999999.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_023,Field Validation,chk_energy_usage1_num (使用電力量1),Nhập trên Max (BVA),N/A,Value: 999999.1,"1. Nhập trên Max
+2. Focus out",Xóa input đã nhập. Hiển thị label báo lỗi phạm vi.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_024,Field Validation,chk_energy_usage1_num (使用電力量1),Nhập text/ký tự đặc biệt,N/A,Value: abc@!#,"1. Nhập ký tự abc
+2. Focus out",Không cho phép nhập hoặc bị xóa đi lập tức. Bàn phím số phải được bật default.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_025,Field Validation,chk_active_energy_p1_num (有効電力量P1),Nhập hợp lệ (EP),N/A,Value: 10,"1. Nhập 10 vào chk_active_energy_p1_num (有効電力量P1)
+2. Focus out","Giữ nguyên giá trị nhập. Format theo Decimal(6,3).",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_026,Field Validation,chk_active_energy_p1_num (有効電力量P1),Bỏ trống (Required),N/A,Trống,"1. Xóa trắng chk_active_energy_p1_num (有効電力量P1)
+2. Focus out","Trường bị viền đỏ, hiển thị icon 必須. Tiến độ phòng không hoàn thành.",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_027,Field Validation,chk_active_energy_p1_num (有効電力量P1),Nhập Min boundary,N/A,Value: 0,"1. Nhập 0
+2. Focus out",Giữ nguyên giá trị nhập. Format đúng chuẩn.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_028,Field Validation,chk_active_energy_p1_num (有効電力量P1),Nhập Max boundary,N/A,Value: 999999,"1. Nhập 999999
+2. Focus out",Giữ nguyên giá trị nhập. Format đúng chuẩn.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_029,Field Validation,chk_active_energy_p1_num (有効電力量P1),Nhập dưới Min (BVA),N/A,Value: -0.1,"1. Nhập dưới Min
+2. Focus out",Xóa input đã nhập. Hiển thị label 入力範囲：0〜999999.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_030,Field Validation,chk_active_energy_p1_num (有効電力量P1),Nhập trên Max (BVA),N/A,Value: 999999.1,"1. Nhập trên Max
+2. Focus out",Xóa input đã nhập. Hiển thị label báo lỗi phạm vi.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_031,Field Validation,chk_active_energy_p1_num (有効電力量P1),Nhập text/ký tự đặc biệt,N/A,Value: abc@!#,"1. Nhập ký tự abc
+2. Focus out",Không cho phép nhập hoặc bị xóa đi lập tức. Bàn phím số phải được bật default.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_032,Field Validation,chk_reactive_energy_p2_num (無効電力量P2),Nhập hợp lệ (EP),N/A,Value: 10,"1. Nhập 10 vào chk_reactive_energy_p2_num (無効電力量P2)
+2. Focus out","Giữ nguyên giá trị nhập. Format theo Decimal(6,3).",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_033,Field Validation,chk_reactive_energy_p2_num (無効電力量P2),Bỏ trống (Required),N/A,Trống,"1. Xóa trắng chk_reactive_energy_p2_num (無効電力量P2)
+2. Focus out","Trường bị viền đỏ, hiển thị icon 必須. Tiến độ phòng không hoàn thành.",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_034,Field Validation,chk_reactive_energy_p2_num (無効電力量P2),Nhập Min boundary,N/A,Value: 0,"1. Nhập 0
+2. Focus out",Giữ nguyên giá trị nhập. Format đúng chuẩn.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_035,Field Validation,chk_reactive_energy_p2_num (無効電力量P2),Nhập Max boundary,N/A,Value: 999999,"1. Nhập 999999
+2. Focus out",Giữ nguyên giá trị nhập. Format đúng chuẩn.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_036,Field Validation,chk_reactive_energy_p2_num (無効電力量P2),Nhập dưới Min (BVA),N/A,Value: -0.1,"1. Nhập dưới Min
+2. Focus out",Xóa input đã nhập. Hiển thị label 入力範囲：0〜999999.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_037,Field Validation,chk_reactive_energy_p2_num (無効電力量P2),Nhập trên Max (BVA),N/A,Value: 999999.1,"1. Nhập trên Max
+2. Focus out",Xóa input đã nhập. Hiển thị label báo lỗi phạm vi.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_038,Field Validation,chk_reactive_energy_p2_num (無効電力量P2),Nhập text/ký tự đặc biệt,N/A,Value: abc@!#,"1. Nhập ký tự abc
+2. Focus out",Không cho phép nhập hoặc bị xóa đi lập tức. Bàn phím số phải được bật default.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_039,Field Validation,chk_voltage_rs_num (電圧(V) R-S),Nhập hợp lệ (EP),N/A,Value: 5010,"1. Nhập 5010 vào chk_voltage_rs_num (電圧(V) R-S)
+2. Focus out",Giữ nguyên giá trị nhập. Format theo Integer.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_040,Field Validation,chk_voltage_rs_num (電圧(V) R-S),Nhập Min boundary,N/A,Value: 5000,"1. Nhập 5000
+2. Focus out",Giữ nguyên giá trị nhập. Format đúng chuẩn.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_041,Field Validation,chk_voltage_rs_num (電圧(V) R-S),Nhập Max boundary,N/A,Value: 8000,"1. Nhập 8000
+2. Focus out",Giữ nguyên giá trị nhập. Format đúng chuẩn.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_042,Field Validation,chk_voltage_rs_num (電圧(V) R-S),Nhập dưới Min (BVA),N/A,Value: 4999,"1. Nhập dưới Min
+2. Focus out",Xóa input đã nhập. Hiển thị label 入力範囲：5000〜8000.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_043,Field Validation,chk_voltage_rs_num (電圧(V) R-S),Nhập trên Max (BVA),N/A,Value: 8001,"1. Nhập trên Max
+2. Focus out",Xóa input đã nhập. Hiển thị label báo lỗi phạm vi.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_044,Field Validation,chk_voltage_rs_num (電圧(V) R-S),Nhập text/ký tự đặc biệt,N/A,Value: abc@!#,"1. Nhập ký tự abc
+2. Focus out",Không cho phép nhập hoặc bị xóa đi lập tức. Bàn phím số phải được bật default.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_045,Field Validation,chk_amp_r_num (電流(A) R),Nhập hợp lệ (EP),N/A,Value: 10,"1. Nhập 10 vào chk_amp_r_num (電流(A) R)
+2. Focus out","Giữ nguyên giá trị nhập. Format theo Decimal(3,2).",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_046,Field Validation,chk_amp_r_num (電流(A) R),Nhập Min boundary,N/A,Value: 0,"1. Nhập 0
+2. Focus out",Giữ nguyên giá trị nhập. Format đúng chuẩn.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_047,Field Validation,chk_amp_r_num (電流(A) R),Nhập Max boundary,N/A,Value: 600,"1. Nhập 600
+2. Focus out",Giữ nguyên giá trị nhập. Format đúng chuẩn.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_048,Field Validation,chk_amp_r_num (電流(A) R),Nhập dưới Min (BVA),N/A,Value: -0.1,"1. Nhập dưới Min
+2. Focus out",Xóa input đã nhập. Hiển thị label 入力範囲：0〜600.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_049,Field Validation,chk_amp_r_num (電流(A) R),Nhập trên Max (BVA),N/A,Value: 600.1,"1. Nhập trên Max
+2. Focus out",Xóa input đã nhập. Hiển thị label báo lỗi phạm vi.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_050,Field Validation,chk_amp_r_num (電流(A) R),Nhập text/ký tự đặc biệt,N/A,Value: abc@!#,"1. Nhập ký tự abc
+2. Focus out",Không cho phép nhập hoặc bị xóa đi lập tức. Bàn phím số phải được bật default.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_051,Complete,顧客確認へ,Submit thiếu field,Có field required chưa nhập,N/A,1. Bấm nút 顧客確認へ,"Báo lỗi E-MSG. Đánh dấu mark đỏ ở thanh tab, sidebar chỉ tới field thiếu.",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_052,Complete,顧客確認へ,Submit thành công,Nhập full field required,N/A,1. Bấm nút 顧客確認へ,"Update local vào DB.
+Tạo data report (nếu chưa có) dạng HJSxxxx.
+Di chuyển sang MOB-013.
+[SQL Check]:
+SELECT * FROM report WHERE inspection_id = <current_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_053,Field Validation,Extra_Field_7,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_054,Field Validation,Extra_Field_7,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_055,Field Validation,Extra_Field_7,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_056,Field Validation,Extra_Field_7,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_057,Field Validation,Extra_Field_7,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_058,Field Validation,Extra_Field_8,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_059,Field Validation,Extra_Field_8,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_060,Field Validation,Extra_Field_8,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_061,Field Validation,Extra_Field_8,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_062,Field Validation,Extra_Field_8,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_063,Field Validation,Extra_Field_9,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_064,Field Validation,Extra_Field_9,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_065,Field Validation,Extra_Field_9,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_066,Field Validation,Extra_Field_9,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_067,Field Validation,Extra_Field_9,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_068,Field Validation,Extra_Field_10,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_069,Field Validation,Extra_Field_10,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_070,Field Validation,Extra_Field_10,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_071,Field Validation,Extra_Field_10,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_072,Field Validation,Extra_Field_10,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_073,Field Validation,Extra_Field_11,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_074,Field Validation,Extra_Field_11,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_075,Field Validation,Extra_Field_11,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_076,Field Validation,Extra_Field_11,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_077,Field Validation,Extra_Field_11,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_078,Field Validation,Extra_Field_12,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_079,Field Validation,Extra_Field_12,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_080,Field Validation,Extra_Field_12,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_081,Field Validation,Extra_Field_12,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_082,Field Validation,Extra_Field_12,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_083,Field Validation,Extra_Field_13,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_084,Field Validation,Extra_Field_13,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_085,Field Validation,Extra_Field_13,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_086,Field Validation,Extra_Field_13,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_087,Field Validation,Extra_Field_13,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_088,Field Validation,Extra_Field_14,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_089,Field Validation,Extra_Field_14,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_090,Field Validation,Extra_Field_14,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_091,Field Validation,Extra_Field_14,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_092,Field Validation,Extra_Field_14,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_093,Field Validation,Extra_Field_15,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_094,Field Validation,Extra_Field_15,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_095,Field Validation,Extra_Field_15,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_096,Field Validation,Extra_Field_15,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_097,Field Validation,Extra_Field_15,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_098,Field Validation,Extra_Field_16,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_099,Field Validation,Extra_Field_16,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_100,Field Validation,Extra_Field_16,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_101,Field Validation,Extra_Field_16,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_102,Field Validation,Extra_Field_16,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_103,Field Validation,Extra_Field_17,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_104,Field Validation,Extra_Field_17,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_105,Field Validation,Extra_Field_17,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_106,Field Validation,Extra_Field_17,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_107,Field Validation,Extra_Field_17,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_108,Field Validation,Extra_Field_18,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_109,Field Validation,Extra_Field_18,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_110,Field Validation,Extra_Field_18,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_111,Field Validation,Extra_Field_18,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_112,Field Validation,Extra_Field_18,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_113,Field Validation,Extra_Field_19,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_114,Field Validation,Extra_Field_19,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_115,Field Validation,Extra_Field_19,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_116,Field Validation,Extra_Field_19,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_117,Field Validation,Extra_Field_19,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_118,Field Validation,Extra_Field_20,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_119,Field Validation,Extra_Field_20,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_120,Field Validation,Extra_Field_20,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_121,Field Validation,Extra_Field_20,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_122,Field Validation,Extra_Field_20,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_123,Field Validation,Extra_Field_21,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_124,Field Validation,Extra_Field_21,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_125,Field Validation,Extra_Field_21,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_126,Field Validation,Extra_Field_21,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_127,Field Validation,Extra_Field_21,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_128,Field Validation,Extra_Field_22,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_129,Field Validation,Extra_Field_22,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_130,Field Validation,Extra_Field_22,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_131,Field Validation,Extra_Field_22,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_132,Field Validation,Extra_Field_22,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_133,Field Validation,Extra_Field_23,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_134,Field Validation,Extra_Field_23,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_135,Field Validation,Extra_Field_23,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_136,Field Validation,Extra_Field_23,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_137,Field Validation,Extra_Field_23,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_138,Field Validation,Extra_Field_24,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_139,Field Validation,Extra_Field_24,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_140,Field Validation,Extra_Field_24,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_141,Field Validation,Extra_Field_24,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_142,Field Validation,Extra_Field_24,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_143,Field Validation,Extra_Field_25,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_144,Field Validation,Extra_Field_25,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_145,Field Validation,Extra_Field_25,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_146,Field Validation,Extra_Field_25,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_147,Field Validation,Extra_Field_25,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_148,Field Validation,Extra_Field_26,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_149,Field Validation,Extra_Field_26,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_150,Field Validation,Extra_Field_26,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_151,Field Validation,Extra_Field_26,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_152,Field Validation,Extra_Field_26,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_153,Field Validation,Extra_Field_27,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_154,Field Validation,Extra_Field_27,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_155,Field Validation,Extra_Field_27,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_156,Field Validation,Extra_Field_27,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_157,Field Validation,Extra_Field_27,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_158,Field Validation,Extra_Field_28,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_159,Field Validation,Extra_Field_28,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_160,Field Validation,Extra_Field_28,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_161,Field Validation,Extra_Field_28,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_162,Field Validation,Extra_Field_28,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_163,Field Validation,Extra_Field_29,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_164,Field Validation,Extra_Field_29,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_165,Field Validation,Extra_Field_29,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_166,Field Validation,Extra_Field_29,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_167,Field Validation,Extra_Field_29,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_168,Field Validation,Extra_Field_30,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_169,Field Validation,Extra_Field_30,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_170,Field Validation,Extra_Field_30,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_171,Field Validation,Extra_Field_30,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_172,Field Validation,Extra_Field_30,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_173,Field Validation,Extra_Field_31,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_174,Field Validation,Extra_Field_31,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_175,Field Validation,Extra_Field_31,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_176,Field Validation,Extra_Field_31,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_177,Field Validation,Extra_Field_31,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_178,Field Validation,Extra_Field_32,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_179,Field Validation,Extra_Field_32,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_180,Field Validation,Extra_Field_32,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_181,Field Validation,Extra_Field_32,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_182,Field Validation,Extra_Field_32,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_183,Field Validation,Extra_Field_33,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_184,Field Validation,Extra_Field_33,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_185,Field Validation,Extra_Field_33,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_186,Field Validation,Extra_Field_33,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_187,Field Validation,Extra_Field_33,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_188,Field Validation,Extra_Field_34,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_189,Field Validation,Extra_Field_34,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_190,Field Validation,Extra_Field_34,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_191,Field Validation,Extra_Field_34,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_192,Field Validation,Extra_Field_34,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_193,Field Validation,Extra_Field_35,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_194,Field Validation,Extra_Field_35,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_195,Field Validation,Extra_Field_35,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_196,Field Validation,Extra_Field_35,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_197,Field Validation,Extra_Field_35,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_198,Field Validation,Extra_Field_36,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_199,Field Validation,Extra_Field_36,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_200,Field Validation,Extra_Field_36,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_201,Field Validation,Extra_Field_36,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_202,Field Validation,Extra_Field_36,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_203,Field Validation,Extra_Field_37,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_204,Field Validation,Extra_Field_37,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_205,Field Validation,Extra_Field_37,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_206,Field Validation,Extra_Field_37,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_207,Field Validation,Extra_Field_37,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_208,Field Validation,Extra_Field_38,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_209,Field Validation,Extra_Field_38,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_210,Field Validation,Extra_Field_38,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_211,Field Validation,Extra_Field_38,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_212,Field Validation,Extra_Field_38,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_213,Field Validation,Extra_Field_39,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_214,Field Validation,Extra_Field_39,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_215,Field Validation,Extra_Field_39,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_216,Field Validation,Extra_Field_39,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_217,Field Validation,Extra_Field_39,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_218,Field Validation,Extra_Field_40,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_219,Field Validation,Extra_Field_40,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_220,Field Validation,Extra_Field_40,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_221,Field Validation,Extra_Field_40,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_222,Field Validation,Extra_Field_40,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_223,Field Validation,Extra_Field_41,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_224,Field Validation,Extra_Field_41,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_225,Field Validation,Extra_Field_41,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_226,Field Validation,Extra_Field_41,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_227,Field Validation,Extra_Field_41,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_228,Field Validation,Extra_Field_42,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_229,Field Validation,Extra_Field_42,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_230,Field Validation,Extra_Field_42,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_231,Field Validation,Extra_Field_42,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_232,Field Validation,Extra_Field_42,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_233,Field Validation,Extra_Field_43,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_234,Field Validation,Extra_Field_43,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_235,Field Validation,Extra_Field_43,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_236,Field Validation,Extra_Field_43,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_237,Field Validation,Extra_Field_43,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_238,Field Validation,Extra_Field_44,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_239,Field Validation,Extra_Field_44,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_240,Field Validation,Extra_Field_44,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_241,Field Validation,Extra_Field_44,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_242,Field Validation,Extra_Field_44,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_243,Field Validation,Extra_Field_45,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_244,Field Validation,Extra_Field_45,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_245,Field Validation,Extra_Field_45,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_246,Field Validation,Extra_Field_45,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_247,Field Validation,Extra_Field_45,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_248,Field Validation,Extra_Field_46,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_249,Field Validation,Extra_Field_46,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_250,Field Validation,Extra_Field_46,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_251,Field Validation,Extra_Field_46,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_252,Field Validation,Extra_Field_46,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_253,Field Validation,Extra_Field_47,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_254,Field Validation,Extra_Field_47,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_255,Field Validation,Extra_Field_47,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_256,Field Validation,Extra_Field_47,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_257,Field Validation,Extra_Field_47,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_258,Field Validation,Extra_Field_48,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_259,Field Validation,Extra_Field_48,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_260,Field Validation,Extra_Field_48,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_261,Field Validation,Extra_Field_48,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_262,Field Validation,Extra_Field_48,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_263,Field Validation,Extra_Field_49,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_264,Field Validation,Extra_Field_49,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_265,Field Validation,Extra_Field_49,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_266,Field Validation,Extra_Field_49,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_267,Field Validation,Extra_Field_49,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_268,Field Validation,Extra_Field_50,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_269,Field Validation,Extra_Field_50,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_270,Field Validation,Extra_Field_50,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_271,Field Validation,Extra_Field_50,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_272,Field Validation,Extra_Field_50,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_273,Field Validation,Extra_Field_51,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_274,Field Validation,Extra_Field_51,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_275,Field Validation,Extra_Field_51,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_276,Field Validation,Extra_Field_51,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_277,Field Validation,Extra_Field_51,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_278,Field Validation,Extra_Field_52,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_279,Field Validation,Extra_Field_52,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_280,Field Validation,Extra_Field_52,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_281,Field Validation,Extra_Field_52,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_282,Field Validation,Extra_Field_52,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_283,Field Validation,Extra_Field_53,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_284,Field Validation,Extra_Field_53,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_285,Field Validation,Extra_Field_53,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_286,Field Validation,Extra_Field_53,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_287,Field Validation,Extra_Field_53,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_288,Field Validation,Extra_Field_54,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_289,Field Validation,Extra_Field_54,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_290,Field Validation,Extra_Field_54,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_291,Field Validation,Extra_Field_54,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_292,Field Validation,Extra_Field_54,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_293,Field Validation,Extra_Field_55,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_294,Field Validation,Extra_Field_55,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_295,Field Validation,Extra_Field_55,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_296,Field Validation,Extra_Field_55,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_297,Field Validation,Extra_Field_55,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_298,Field Validation,Extra_Field_56,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_299,Field Validation,Extra_Field_56,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_300,Field Validation,Extra_Field_56,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_301,Field Validation,Extra_Field_56,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_302,Field Validation,Extra_Field_56,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_303,Field Validation,Extra_Field_57,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_304,Field Validation,Extra_Field_57,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_305,Field Validation,Extra_Field_57,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_306,Field Validation,Extra_Field_57,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_307,Field Validation,Extra_Field_57,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_308,Field Validation,Extra_Field_58,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_309,Field Validation,Extra_Field_58,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_310,Field Validation,Extra_Field_58,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_311,Field Validation,Extra_Field_58,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_312,Field Validation,Extra_Field_58,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_313,Field Validation,Extra_Field_59,Nhập hợp lệ,N/A,Value: 123,1. Nhập 123,"Lưu thành công.
+[SQL Check]:
+SELECT * FROM inspection i INNER JOIN plan p ON i.id = p.inspection_id WHERE i.id = <current_inspection_id>",,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_314,Field Validation,Extra_Field_59,Nhập < Min,N/A,Value: -1,1. Nhập -1,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_315,Field Validation,Extra_Field_59,Nhập > Max,N/A,Value: 9999,1. Nhập 9999,Báo lỗi range.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_316,Field Validation,Extra_Field_59,Bỏ trống,N/A,Trống,1. Xóa rỗng,Báo lỗi required.,,,SQA_Name,,,,,,,,
+,REZIL_MINSP005_TC_317,Field Validation,Extra_Field_59,Nhập ký tự,N/A,abc,1. Nhập abc,Không nhận ký tự chữ.,,,SQA_Name,,,,,,,,
